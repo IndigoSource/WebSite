@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indigo's Website</title>
+    <link id="favicon" rel="icon" href="https://cdn.discordapp.com/embed/avatars/0.png" type="image/png">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Profile Header -->
+        <header class="profile-header">
+            <div class="profile-info">
+                <div class="avatar-container">
+                    <img id="avatar" src="" alt="Profile Picture" class="avatar">
+                    <div id="status-indicator" class="status-indicator"></div>
+                </div>
+                <div class="user-details">
+                    <h1 id="username">Loading...</h1>
+                    <p id="discriminator" class="discriminator"></p>
+                    <div id="custom-status" class="custom-status"></div>
+                </div>
+            </div>
+            <div id="clock" class="clock"></div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="nav-links">
+            <button id="tab-discord" class="nav-link active" onclick="switchTab('discord')">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6548-.2476-1.2809-.5495-1.872-.8924a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1924.3718-.2914a.0743.0743 0 01.0771-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-.8286 0-1.5-1.0368-1.5-2.3129 0-1.276.6586-2.3128 1.5-2.3128.8414 0 1.5108 1.0457 1.5 2.3129 0 1.276-.6586 2.3128-1.5 2.3128zm7.9748 0c-.8286 0-1.5-1.0368-1.5-2.3129 0-1.276.6586-2.3128 1.5-2.3128.8414 0 1.5108 1.0457 1.5 2.3129 0 1.276-.6586 2.3128-1.5 2.3128z"/>
+                </svg>
+                Discord Status
+            </button>
+            <button id="tab-music" class="nav-link" onclick="switchTab('music')">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+                </svg>
+                Music
+            </button>
+            <button id="tab-about" class="nav-link" onclick="switchTab('about')">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                </svg>
+                About Me
+            </button>
+        </nav>
+
+        <!-- Discord Status Page -->
+        <div id="page-discord" class="page active">
+            <main class="main-content">
+                <!-- Discord Status Card -->
+                <section class="card discord-status">
+                    <h2>
+                        <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6548-.2476-1.2809-.5495-1.872-.8924a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1924.3718-.2914a.0743.0743 0 01.0771-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-.8286 0-1.5-1.0368-1.5-2.3129 0-1.276.6586-2.3128 1.5-2.3128.8414 0 1.5108 1.0457 1.5 2.3129 0 1.276-.6586 2.3128-1.5 2.3128zm7.9748 0c-.8286 0-1.5-1.0368-1.5-2.3129 0-1.276.6586-2.3128 1.5-2.3128.8414 0 1.5108 1.0457 1.5 2.3129 0 1.276-.6586 2.3128-1.5 2.3128z"/>
+                        </svg>
+                        Discord Status
+                    </h2>
+                    <div id="activity-container" class="activity-container">
+                        <!-- Activity content will be dynamically inserted -->
+                    </div>
+                </section>
+
+                <!-- About Me Card -->
+                <section class="card about-me">
+                    <h2>
+                        <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2a7.2 7.2 0 0 1-6-3.22c.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08a7.2 7.2 0 0 1-6 3.22z"/>
+                        </svg>
+                        About Me
+                    </h2>
+                    <p>Welcome to my personal website! I'm currently using it to display my interests and also whatever else I feel like. :D</p>
+                    <p>Feel free to friend me if you want to and learn more about me!</p>
+                </section>
+
+                <!-- Social Links Card -->
+                <section class="card social-links">
+                    <h2>
+                        <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/>
+                        </svg>
+                        Connect With Me
+                    </h2>
+                    <div id="social-grid" class="social-grid">
+                        <!-- Links are generated dynamically from script.js -->
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <!-- Music Page -->
+        <div id="page-music" class="page">
+            <main class="main-content">
+                <!-- Currently Playing -->
+                <section class="card now-playing" id="now-playing">
+                    <div class="now-playing-header">
+                        <h2>
+                            <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+                            </svg>
+                            <span id="now-playing-title">Loading...</span>
+                        </h2>
+                        <a href="https://www.last.fm/user/indifrog" target="_blank" class="lastfm-profile-link">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M19.36 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.64-4.96z"/>
+                            </svg>
+                            <span>indifrog</span>
+                        </a>
+                    </div>
+                    <div class="now-playing-content">
+                        <div class="album-art-container">
+                            <img id="now-playing-album" src="" alt="Album Art" class="album-art">
+                        </div>
+                        <div class="track-info">
+                            <h3 id="track-name">-</h3>
+                            <p id="track-artist">-</p>
+                            <p id="track-album">-</p>
+                            <div class="scrobble-info">
+                                <svg viewBox="0 0 24 24" fill="currentColor" class="scrobble-icon">
+                                    <path d="M19 8h-1V3H6v5H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zM8 5h8v3H8V5zm8 12v2H8v-2h8zm2-2v-2H6v2H4v-4c0-.55.45-1 1-1h14c.55 0 1 .45 1 1v4h-2z"/>
+                                </svg>
+                                <span id="scrobble-count">-</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Recent Tracks -->
+                <section class="card recent-tracks">
+                    <h2>
+                        <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M13 3a9 9 0 0 0-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42A8.954 8.954 0 0 0 13 21a9 9 0 0 0 0-18zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/>
+                        </svg>
+                        Recent Tracks
+                    </h2>
+                    <div id="recent-tracks-list" class="recent-tracks-list">
+                        <!-- Tracks will be loaded dynamically -->
+                    </div>
+                </section>
+
+                <!-- Top Artists -->
+                <section class="card top-artists">
+                    <h2>
+                        <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                        </svg>
+                        Top Artists
+                    </h2>
+                    <div id="top-artists-list" class="top-artists-list">
+                        <!-- Artists will be loaded dynamically -->
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <!-- About Me Page -->
+        <div id="page-about" class="page">
+            <main class="main-content">
+                <section class="card about-me-expanded" id="about-me-container">
+                    <!-- Loaded dynamically from about-me.json -->
+                </section>
+            </main>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Powered by <a href="https://github.com/Phineas/lanyard" target="_blank">Lanyard API</a> & <a href="https://www.last.fm/api" target="_blank">Last.fm API</a></p>
+        </footer>
+    </div>
+
+    <script src="lastfm.js"></script>
+    <script src="script.js"></script>
+    <script src="about-me.js"></script>
+    <script src="tabs.js"></script>
+</body>
+</html>

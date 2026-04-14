@@ -1,0 +1,35 @@
+{
+  "intro": "Hey! I'm Indigo or Indi. Welcome to my personal corner of the internet—feel free to explore my interests, music taste, and socials!",
+  "sections": [
+    {
+      "title": "Who Am I",
+      "icon": "check",
+      "type": "text",
+      "content": "I'm a 17-year-old male (He/Him) and I'm gynosexual. My timezone is PST and my birthday is December 20th. I also have 2 Shih Tzu dogs named Zuko and Azula (yes they're named after the avatar characters) "
+    },
+    {
+      "title": "What I Do",
+      "icon": "code",
+      "type": "text",
+      "content": "I enjoy gaming, listening to music, and learning new things like playing guitar. I also like working on websites and sometimes discord bots as well, all of its for fun and its a learning process for me."
+    },
+    {
+      "title": "Interests & Hobbies",
+      "icon": "star",
+      "type": "list",
+      "items": [
+        "Manhwa: Solo Max Level Newbie, I Obtained a Mythic Item, Logging 10,000 Years into the Future (I like OP MC manhwa)",
+        "Games: Rocket League, Minecraft, Roblox, Terraria, Tmod Loader, Satisfactory",
+        "YouTubers: The Boys, Sauce Eddie, Narrator, Sam and Colby, Big Puffer, Markiplier, Clooless Podcast, Eric Parker, Joko, Let's Game It Out, DanTDM, DangerouslyFunny",
+        "Music: John Michael Howell, Fall Out Boy, Twenty One Pilots, The Weeknd, Arctic Monkeys, Imagine Dragons, Chase Atlantic, Maroon 5, Bastille"
+      ]
+    },
+    {
+      "title": "Get In Touch",
+      "icon": "link",
+      "type": "text",
+      "content": "Contact me through my discord "
+    }
+  ],
+  "_available_icons": "check, code, star, mail, music, gamepad, link"
+}

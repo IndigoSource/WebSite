@@ -1,0 +1,8 @@
+[build]
+  command = "echo 'No build step required'"
+  publish = "."
+
+[[redirects]]
+  from = "/*"
+  to = "/.netlify/functions/server"
+  status = 200

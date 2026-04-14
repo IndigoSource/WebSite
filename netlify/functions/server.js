@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const fetch = require('node-fetch');
+const serverless = require('serverless-http');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -50,3 +51,6 @@ app.get('*', (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });
+
+// Netlify export
+exports.handler = serverless(app);

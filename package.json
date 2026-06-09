@@ -3,10 +3,12 @@
   "version": "1.0.0",
   "description": "Personal portfolio website with Discord status and Last.fm integration",
   "main": "server.js",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "scripts": {
     "start": "node server.js",
-    "dev": "node server.js",
-    "build": "echo 'No build step required'"
+    "dev": "node server.js"
   },
   "dependencies": {
     "dotenv": "^16.3.1",

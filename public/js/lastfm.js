@@ -82,7 +82,7 @@ async function loadNowPlaying() {
         if (albumArt && albumArt['#text']) {
             nowPlayingAlbum.src = albumArt['#text'];
         } else {
-            nowPlayingAlbum.src = 'https://via.placeholder.com/200x200/1e1f22/949ba4?text=No+Art';
+            nowPlayingAlbum.src = 'https://via.placeholder.com/200x200/11111b/6c7086?text=No+Art';
         }
 
         // Scrobble count
@@ -159,7 +159,7 @@ function createTrackElement(track) {
 
     div.innerHTML = `
         <a href="${trackUrl}" target="_blank" class="track-item-link">
-            <img src="${albumArt['#text'] || 'https://via.placeholder.com/64x64/1e1f22/949ba4?text=?'}"
+            <img src="${albumArt['#text'] || 'https://via.placeholder.com/64x64/11111b/6c7086?text=?'}"
                  alt="${track.album?.name || 'Album'}"
                  class="track-item-album">
             <div class="track-item-info">
@@ -203,8 +203,10 @@ function createArtistElement(artist) {
     const div = document.createElement('div');
     div.className = 'artist-item';
     
+    const artistImgUrl = artist.image?.slice().reverse().find(img => img['#text'])?.['#text'] || '';
+
     div.innerHTML = `
-        <img src="${artist.image[0]?.['#text'] || 'https://via.placeholder.com/64x64/1e1f22/949ba4?text=?'}" 
+        <img src="${artistImgUrl || 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect fill=%22%2311111b%22 width=%2264%22 height=%2264%22/%3E%3Ctext fill=%22%236c7086%22 font-size=%2232%22 x=%2232%22 y=%2239%22 text-anchor=%22middle%22%3E${artist.name[0].toUpperCase()}%3C/text%3E%3C/svg%3E'}" 
              alt="${artist.name}" 
              class="artist-item-image">
         <div class="artist-item-info">
@@ -233,7 +235,7 @@ function showNoTracks() {
     trackArtist.textContent = '-';
     trackAlbum.textContent = '-';
     scrobbleCount.textContent = '0 scrobbles';
-    nowPlayingAlbum.src = 'https://via.placeholder.com/200x200/1e1f22/949ba4?text=No+Art';
+    nowPlayingAlbum.src = 'https://via.placeholder.com/200x200/11111b/6c7086?text=No+Art';
 }
 
 // Show error state

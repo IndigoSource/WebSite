@@ -8,7 +8,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Serve static files
-app.use(express.static(path.join(__dirname)));
+app.use(express.static(path.join(__dirname, '../../public')));
 
 // Last.fm API proxy endpoint
 app.get('/api/lastfm', async (req, res) => {
@@ -45,7 +45,7 @@ app.get('/api/lastfm', async (req, res) => {
 
 // Serve index.html for all routes
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
+    res.sendFile(path.join(__dirname, '../../public', 'index.html'));
 });
 
 app.listen(PORT, () => {

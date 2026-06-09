@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Indigo's Website</title>
     <link id="favicon" rel="icon" href="https://cdn.discordapp.com/embed/avatars/0.png" type="image/png">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
     <div class="container">
@@ -14,7 +14,6 @@
             <div class="profile-info">
                 <div class="avatar-container">
                     <img id="avatar" src="" alt="Profile Picture" class="avatar">
-                    <div id="status-indicator" class="status-indicator"></div>
                 </div>
                 <div class="user-details">
                     <h1 id="username">Loading...</h1>
@@ -33,17 +32,17 @@
                 </svg>
                 Discord Status
             </button>
-            <button id="tab-music" class="nav-link" onclick="switchTab('music')">
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
-                </svg>
-                Music
-            </button>
             <button id="tab-about" class="nav-link" onclick="switchTab('about')">
                 <svg viewBox="0 0 24 24" fill="currentColor">
                     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
                 </svg>
                 About Me
+            </button>
+            <button id="tab-music" class="nav-link" onclick="switchTab('music')">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+                </svg>
+                Music
             </button>
         </nav>
 
@@ -63,17 +62,6 @@
                     </div>
                 </section>
 
-                <!-- About Me Card -->
-                <section class="card about-me">
-                    <h2>
-                        <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2a7.2 7.2 0 0 1-6-3.22c.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08a7.2 7.2 0 0 1-6 3.22z"/>
-                        </svg>
-                        About Me
-                    </h2>
-                    <p>Welcome to my personal website! I'm currently using it to display my interests and also whatever else I feel like. :D</p>
-                    <p>Feel free to friend me if you want to and learn more about me!</p>
-                </section>
 
                 <!-- Social Links Card -->
                 <section class="card social-links">
@@ -170,9 +158,9 @@
         </footer>
     </div>
 
-    <script src="lastfm.js"></script>
-    <script src="script.js"></script>
-    <script src="about-me.js"></script>
-    <script src="tabs.js"></script>
+    <script src="js/lastfm.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/about-me.js"></script>
+    <script src="js/tabs.js"></script>
 </body>
 </html>

@@ -1,7 +1,8 @@
-// About Me - loads from about-me.json
+let currentAboutTab = 'whoami';
+
 async function loadAboutMe() {
     try {
-        const response = await fetch('/about-me.json');
+        const response = await fetch('assets/about-me.json');
         const data = await response.json();
         renderAboutMe(data);
     } catch (error) {
@@ -14,39 +15,56 @@ function renderAboutMe(data) {
     const container = document.getElementById('about-me-container');
     if (!container) return;
 
-    let html = '';
+    container.innerHTML = `
+        <nav class="about-tabs">
+            <button class="about-tab active" data-tab="whoami">Who Am I</button>
+            <button class="about-tab" data-tab="interests">Interests</button>
+            <button class="about-tab" data-tab="hobbies">Hobbies</button>
+        </nav>
+        <div class="about-tab-content" id="about-tab-content"></div>
+    `;
 
-    // Intro section
-    html += `<div class="about-me-intro"><p>${escapeHtml(data.intro)}</p></div>`;
-
-    // Sections
-    html += '<div class="about-me-sections">';
-
-    data.sections.forEach(section => {
-        const iconSvg = getIcon(section.icon);
-        html += `
-            <div class="about-section">
-                <h3>${iconSvg} ${escapeHtml(section.title)}</h3>
-        `;
-
-        if (section.type === 'text') {
-            html += `<p>${escapeHtml(section.content)}</p>`;
-        } else if (section.type === 'list') {
-            html += '<ul>';
-            section.items.forEach(item => {
-                html += `<li>${escapeHtml(item)}</li>`;
-            });
-            html += '</ul>';
-        } else if (section.type === 'html') {
-            // Raw HTML if you need custom formatting
-            html += section.content;
-        }
-
-        html += '</div>';
+    container.querySelectorAll('.about-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            container.querySelectorAll('.about-tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            currentAboutTab = tab.dataset.tab;
+            renderAboutTabContent(data, currentAboutTab);
+        });
     });
 
-    html += '</div>';
-    container.innerHTML = html;
+    renderAboutTabContent(data, 'whoami');
+}
+
+function renderAboutTabContent(data, tab) {
+    const content = document.getElementById('about-tab-content');
+    if (!content) return;
+
+    let html = '';
+
+    if (tab === 'whoami') {
+        html = `<div class="about-section"><p>${escapeHtml(data.whoAmI.content)}</p></div>`;
+    } else if (tab === 'interests') {
+        const categories = [
+            { key: 'manhwa', label: 'Manhwa', icon: 'star' },
+            { key: 'games', label: 'Games', icon: 'gamepad' },
+            { key: 'anime', label: 'Anime', icon: 'star' },
+            { key: 'music', label: 'Music', icon: 'music' },
+            { key: 'youtubers', label: 'YouTubers', icon: 'code' }
+        ];
+        categories.forEach(cat => {
+            const items = data.interests[cat.key];
+            if (items && items.length) {
+                html += `<div class="about-section"><h3>${getIcon(cat.icon)} ${cat.label}</h3><ul>`;
+                items.forEach(item => { html += `<li>${escapeHtml(item)}</li>`; });
+                html += '</ul></div>';
+            }
+        });
+    } else if (tab === 'hobbies') {
+        html = `<div class="about-section"><p>${escapeHtml(data.hobbies.content)}</p></div>`;
+    }
+
+    content.innerHTML = html;
 }
 
 function getIcon(name) {
@@ -68,10 +86,8 @@ function escapeHtml(text) {
     return div.innerHTML;
 }
 
-// Load when DOM is ready, or immediately if already loaded
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', loadAboutMe);
 } else {
     loadAboutMe();
 }
-

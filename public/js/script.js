@@ -6,7 +6,7 @@ const LANYARD_API = 'https://api.lanyard.rest';
 
 // Background Image - Set to URL, local file path, or leave empty for default gradient
 // Examples: 'https://example.com/bg.jpg', 'images/background.png', or ''
-const BACKGROUND_IMAGE = 'https://i.pinimg.com/originals/59/b2/34/59b2349684d902730f710b65f05ecb80.gif';
+const BACKGROUND_IMAGE = 'assets/background.gif';
 
 // Social Links - Edit these to change your social media links
 const SOCIAL_LINKS = [
@@ -14,25 +14,25 @@ const SOCIAL_LINKS = [
         name: 'GitHub',
         url: 'https://github.com/IndigoSource',
         icon: 'github',
-        hoverColor: '#6e7681'
+        hoverColor: '#6c7086'
     },
     {
         name: 'Spotify',
         url: 'https://open.spotify.com/user/inyncjgcvphzzixdfdeyqgct0',
         icon: 'spotify',
-        hoverColor: '#1db954'
+        hoverColor: '#a6e3a1'
     },
     {
         name: 'Roblox',
         url: 'https://www.roblox.com/users/72986445/profile',
         icon: 'roblox',
-        hoverColor: '#e2231a'
+        hoverColor: '#f38ba8'
     },
     {
         name: 'Last.fm',
         url: 'https://www.last.fm/user/indifrog',
         icon: 'lastfm',
-        hoverColor: '#d5100d'
+        hoverColor: '#eba0ac'
     }
 ];
 
@@ -45,7 +45,6 @@ const avatar = document.getElementById('avatar');
 const username = document.getElementById('username');
 const discriminator = document.getElementById('discriminator');
 const customStatus = document.getElementById('custom-status');
-const statusIndicator = document.getElementById('status-indicator');
 const activityContainer = document.getElementById('activity-container');
 
 // Check if we're on a page with Discord status elements
@@ -95,36 +94,11 @@ function updateProfile(data) {
         avatar.src = defaultAvatar;
     }
     
-    // Update status indicator
-    updateStatusIndicator(discord_status);
-
     // Update custom status emoji under username
     updateCustomStatusEmoji(activities);
 
     // Update activities
     updateActivities(activities);
-}
-
-// Update status indicator color
-function updateStatusIndicator(status) {
-    statusIndicator.className = 'status-indicator';
-    
-    switch (status) {
-        case 'online':
-            statusIndicator.classList.add('online');
-            break;
-        case 'idle':
-            statusIndicator.classList.add('idle');
-            break;
-        case 'dnd':
-            statusIndicator.classList.add('dnd');
-            break;
-        case 'offline':
-            statusIndicator.classList.add('offline');
-            break;
-        default:
-            statusIndicator.classList.add('offline');
-    }
 }
 
 // Update activities display
@@ -190,10 +164,23 @@ function createActivityElement(activity) {
         state = activity.state || '';
     }
 
-    // Timer for elapsed time
-    if (activity.timestamps && activity.timestamps.start) {
-        const startTime = new Date(activity.timestamps.start);
-        timer = `Started ${formatTimeDifference(startTime)}`;
+    // Only show progress bar for Spotify
+    let progressHtml = '';
+    if (activity.name === 'Spotify' && activity.timestamps) {
+        const now = Date.now();
+        const start = activity.timestamps.start;
+        const end = activity.timestamps.end;
+
+        if (start && end) {
+            const elapsed = now - start;
+            const total = end - start;
+            const percent = Math.min((elapsed / total) * 100, 100);
+            progressHtml = `
+                <div class="activity-progress" data-start="${start}" data-end="${end}">
+                    <div class="activity-progress-bar" style="width: ${percent}%"></div>
+                    <span class="activity-progress-time">${formatDuration(elapsed)} / ${formatDuration(total)}</span>
+                </div>`;
+        }
     }
 
     // Wrap in link if available
@@ -202,8 +189,8 @@ function createActivityElement(activity) {
         <div class="activity-details">
             ${details ? `<h3>${activityLink ? `<a href="${activityLink}" target="_blank" class="activity-link">${details}</a>` : details}</h3>` : ''}
             ${state ? `<p>${state}</p>` : ''}
-            ${timer ? `<p class="activity-timer">${timer}</p>` : ''}
         </div>
+        ${progressHtml}
     `;
 
     div.innerHTML = content;
@@ -238,18 +225,17 @@ function updateCustomStatusEmoji(activities) {
     customStatus.innerHTML = `${emojiHTML}${statusTextContent ? `<span>${escapeHtml(statusTextContent)}</span>` : ''}`;
 }
 
-// Format time difference
-function formatTimeDifference(date) {
-    const now = new Date();
-    const diff = now - date;
-
-    const minutes = Math.floor(diff / 60000);
-    const hours = Math.floor(minutes / 60);
+// Format duration in ms to readable string
+function formatDuration(ms) {
+    const totalSeconds = Math.floor(ms / 1000);
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
 
     if (hours > 0) {
-        return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+        return `${hours}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
     }
-    return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+    return `${minutes}:${String(seconds).padStart(2, '0')}`;
 }
 
 // Escape HTML to prevent XSS
@@ -287,7 +273,7 @@ function connectWebSocket() {
         ws.close();
     }
     
-    ws = new WebSocket('wss://lanyard.cnrad.dev/socket');
+    ws = new WebSocket('wss://api.lanyard.rest/socket');
     
     ws.onopen = () => {
         console.log('WebSocket connected');
@@ -348,17 +334,29 @@ function showError() {
     activityContainer.innerHTML = '<p class="no-activity">Unable to fetch activity</p>';
 }
 
-// Update timer displays periodically
-setInterval(() => {
-    const activities = activityContainer.querySelectorAll('.activity');
-    activities.forEach(activityEl => {
-        const timerEl = activityEl.querySelector('.activity-timer');
-        if (timerEl && timerEl.textContent.includes('Started')) {
-            // This is simplified - in production you'd store the start time
-            // and recalculate here
+// Update progress bars periodically
+function updateProgressBars() {
+    document.querySelectorAll('.activity-progress').forEach(container => {
+        const bar = container.querySelector('.activity-progress-bar');
+        const timeEl = container.querySelector('.activity-progress-time');
+        const start = parseInt(container.dataset.start);
+        const end = container.dataset.end ? parseInt(container.dataset.end) : null;
+        const now = Date.now();
+
+        if (start && end) {
+            const elapsed = now - start;
+            const total = end - start;
+            const percent = Math.min((elapsed / total) * 100, 100);
+            bar.style.width = `${percent}%`;
+            timeEl.textContent = `${formatDuration(elapsed)} / ${formatDuration(total)}`;
+        } else if (start) {
+            const elapsed = now - start;
+            timeEl.textContent = `${formatDuration(elapsed)} elapsed`;
         }
     });
-}, 60000); // Update every minute
+}
+
+setInterval(updateProgressBars, 1000);
 
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', () => {
